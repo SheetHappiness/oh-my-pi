@@ -86,6 +86,12 @@ export function isProposeToolCall(toolCall: { name: string; arguments?: Record<s
 	return path !== undefined && parseXdUrl(path)?.name === PROPOSE_DEVICE_NAME;
 }
 
+/** Exposes dispatched device names so loop exemptions need not exempt every write. */
+export function writeDeviceName(toolCall: { name: string; arguments?: Record<string, unknown> }): string | undefined {
+	const path = toolCallWritePath(toolCall);
+	return path === undefined ? undefined : (parseXdUrl(path)?.name ?? undefined);
+}
+
 /**
  * The XdevDispatch metadata carried on a completed `write` execution result, or
  * `undefined` when the execution was not a device dispatch. Consumers check
